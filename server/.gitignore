@@ -1,2 +1,5 @@
 # Pop configuration
 config/database.yml
+
+# Database scripts
+database/*.sql
