@@ -14,3 +14,4 @@
 
 # Pop configuration
 config/database.yml
+\.idea/
