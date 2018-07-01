@@ -23,7 +23,7 @@ func Conf(key string) string {
 func Init() {
 	db, err := pop.Connect("configuration")
 	if err != nil {
-		panic(err)
+		panic(err.Error() + ". Check if the database is accessible.")
 	}
 	defer db.Close()
 
