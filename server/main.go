@@ -1,16 +1,16 @@
 package main
 
 import (
-	"log"
+	"time"
 
 	"github.com/polipastos/server/telegram"
 )
 
 func main() {
+	d, _ := time.ParseDuration("1s")
 	telegram.Init()
-	log.Println("Bot token", telegram.Conf("bot_token"))
-
-	log.Println("Looking for updates")
-	telegram.Update()
-	log.Println("Done")
+	for i := 0; i < 3; i++ {
+		telegram.Update()
+		time.Sleep(d)
+	}
 }

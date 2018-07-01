@@ -1,0 +1,11 @@
+CREATE TABLE `users` (
+	`id` CHAR(36) NOT NULL,
+	`username` CHAR(20) NOT NULL,
+	`created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `username` (`username`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
