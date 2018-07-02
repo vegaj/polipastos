@@ -1,16 +1,30 @@
 package main
 
 import (
-	"time"
+	"log"
 
-	"github.com/polipastos/server/telegram"
+	"github.com/gobuffalo/pop"
+	"github.com/polipastos/server/api"
+	"github.com/polipastos/server/core"
 )
 
 func main() {
-	d, _ := time.ParseDuration("1s")
-	telegram.Init()
-	for i := 0; i < 3; i++ {
-		telegram.Update()
-		time.Sleep(d)
+
+	db, err := pop.Connect("development")
+	if err != nil {
+		panic(err)
 	}
+
+	api.Init(db)
+	core.Init(db)
+
+	/*
+		r := mux.NewRouter()
+		r.HandleFunc("/api/register", api.RegisterUserPost)
+
+		http.ListenAndServe(":8080", r)
+	*/
+
+	api.StartServer()
+	log.Println("----")
 }

@@ -6,11 +6,12 @@ import (
 	"time"
 
 	"github.com/gobuffalo/pop"
+	"github.com/polipastos/server/test"
 )
 
 var (
 	db  *pop.Connection
-	env map[string]string
+	env test.Env
 )
 
 const (
@@ -19,7 +20,7 @@ const (
 
 func TestMain(m *testing.M) {
 	var err error
-	db, env, err = prepareTests()
+	db, env, err = test.PrepareTests()
 	if err != nil {
 		panic(err)
 	}

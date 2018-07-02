@@ -4,9 +4,32 @@
     // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
         {
-            "name": "Launch models test package",
+            "name": "API test package",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceRoot}/server/api/",
+            "showLog": false,
+            "env": {
+                "migrations_path": "${workspaceRoot}/server/migrations",
+                "database" : "testing"
+            }
+        },
+        {
+            "name": "CORE test package",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceRoot}/server/core/",
+            "showLog": false,
+            "env": {
+                "migrations_path": "${workspaceRoot}/server/migrations",
+                "database" : "testing"
+            }
+        },
+        {
+            "name": "MODELS models test package",
             "type": "go",
             "request": "launch",
             "mode": "test",
@@ -18,14 +41,14 @@
             }
         },
         {
-            "name": "Launch",
+            "name": "Launch debug",
             "type": "go",
             "request": "launch",
             "mode": "debug",
             "remotePath": "",
             "port": 2345,
             "host": "127.0.0.1",
-            "program": "${fileDirname}/server/",
+            "program": "${workspaceRoot}/server/main.go",
             "env": {
                 "migrations_path" : "${workspaceRoot}/server/migrations",
                 "database" : "development"
