@@ -6,10 +6,12 @@ import (
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/gobuffalo/pop"
+	"github.com/polipastos/server/test"
 )
 
 var (
-	db *pop.Connection
+	db  *pop.Connection
+	env test.Env
 
 	//ErrAlreadyInUse shows a pk conflict
 	ErrAlreadyInUse = errors.New("identifier already in use")
@@ -17,6 +19,10 @@ var (
 	ErrInternalError = errors.New("internal server error")
 	//ErrInvalidRequest - The arguments for this function are invalid
 	ErrInvalidRequest = errors.New("invalid request")
+	//ErrNotFound - The requested resource could not be found with the given information
+	ErrNotFound = errors.New("resource not found")
+	//ErrInvalidPair - The pair authentication failed.
+	ErrInvalidPair = errors.New("invalid credentials")
 )
 
 //Init the core package with the persistence database connection

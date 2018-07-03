@@ -1,27 +1,17 @@
 package core
 
 import (
-	"os"
 	"testing"
 
+	"github.com/gobuffalo/uuid"
+
 	"github.com/polipastos/server/models"
-	"github.com/polipastos/server/test"
 )
 
 var (
-	//db declared in core.go
-	env test.Env
+//db declared in core.go
+
 )
-
-func TestMain(m *testing.M) {
-	var err error
-	db, env, err = test.PrepareTests()
-
-	if err != nil {
-		panic(err)
-	}
-	os.Exit(m.Run())
-}
 
 func Test_ValidRegistration(t *testing.T) {
 
@@ -101,4 +91,42 @@ func Test_ValidRegistrationMatchesPassword(t *testing.T) {
 	if !PasswordMatch(pwdig.Digest, []byte(password)) {
 		t.Fatalf("the password cannot ve berified (stored one) %v...", pwdig.Digest[:8])
 	}
+}
+
+func Test_CannotAccessOtherUsersOtherPassword(t *testing.T) {
+	var unam1, unam2, passw1, passw2 string
+
+	unam1 = "pwcrossaccess1"
+	unam2 = "pwcrossaccess2"
+	passw1 = "pw1"
+	passw2 = "pw2"
+
+	var err error
+	var id, id1, id2 uuid.UUID
+
+	id1, err = RegisterUser(unam1, passw1)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	id2, err = RegisterUser(unam2, passw2)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if id1 == id2 {
+		t.Fatalf("different users with same id %v | %v", id1, id2)
+	}
+
+	id, err = PairAuthentication(unam1, passw2)
+	if err == nil {
+		t.Fatal("the pair authentication should'd fail")
+	} else if ErrInvalidPair != err {
+		t.Fatalf("%v error was expected, but found %v", ErrInvalidPair, err)
+	}
+
+	if id == id1 || id == id2 {
+		t.Fatalf("a valid uuid was retourned (%v) u1 (%v) u2 (%v)", id, id1, id2)
+	}
+
 }
