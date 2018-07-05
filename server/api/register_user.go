@@ -20,16 +20,7 @@ func RegisterUserPost(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 
-	//Should be checked by the router
-	if r.Method != http.MethodPost {
-		w.WriteHeader(http.StatusForbidden)
-		m.Set("error", "invalid request method")
-		resp.Encode(m)
-		return
-	}
-
 	err := r.ParseForm()
-
 	if err != nil {
 		log.Println("RegisterUserPost - ", err)
 		m.Set("error", ErrInvalidRequest.Error())
@@ -57,6 +48,23 @@ func RegisterUserPost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if ok {
+
+		//Set cookies. If this fails, the user will have to perform a manual login
+		token, _ := uuid.NewV4()
+		if encoded, err := authSecCookie.Encode(authCookieName, map[string]string{authCookieName: token.String()}); err == nil {
+			http.SetCookie(w, NewAuthCookie(authCookieName, encoded))
+		} else {
+			log.Println("Could not set cookie", err)
+		}
+
+		//Set session uuid cookie. If this fails, the uuid must be retrieved
+		if sess, err := store.Get(r, sesName); err == nil {
+			sess.Values[sesUUIDKey] = id.Bytes()
+			sess.Save(r, w)
+		} else {
+			log.Println("Could not store session cookies", err)
+		}
+
 		m.Set("ok", "true")
 		m.Set("uuid", id.String())
 		w.WriteHeader(http.StatusOK)
