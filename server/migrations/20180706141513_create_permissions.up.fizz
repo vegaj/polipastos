@@ -1,0 +1,5 @@
+create_table("permissions") {
+	t.Column("id", "uuid", {"primary": true})
+	t.Column("name", "text", {"null": false})
+	t.Column("description", "text", {})
+}

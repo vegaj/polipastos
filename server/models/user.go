@@ -12,10 +12,11 @@ import (
 
 //User entity to be used in polipastos
 type User struct {
-	ID        uuid.UUID `json:"id" db:"id"`
-	CreatedAt time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
-	Username  string    `json:"username" db:"username"`
+	ID        uuid.UUID   `json:"id" db:"id"`
+	CreatedAt time.Time   `json:"created_at" db:"created_at"`
+	UpdatedAt time.Time   `json:"updated_at" db:"updated_at"`
+	Username  string      `json:"username" db:"username"`
+	Perms     Permissions `many_to_many:"user_permissions" db:"-"`
 }
 
 // String is not required by pop and may be deleted
