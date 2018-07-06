@@ -3,3 +3,5 @@ create_table("user_permissions") {
 	t.Column("user_id", "uuid", {})
 	t.Column("permission_id", "uuid", {})
 }
+
+add_index("user_permissions", ["user_id", "permission_id"], {"unique": true})
