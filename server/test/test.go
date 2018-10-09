@@ -1,4 +1,4 @@
-package models
+package test
 
 import (
 	"os"
@@ -6,9 +6,11 @@ import (
 	"github.com/gobuffalo/pop"
 )
 
-type testEnv map[string]string
+//Env as synonim of map[string]string to track envars
+type Env map[string]string
 
-func prepareTests() (*pop.Connection, testEnv, error) {
+//PrepareTests is meant to be runned in TestMain to reset the targeted database
+func PrepareTests() (*pop.Connection, Env, error) {
 
 	var err error
 	var db *pop.Connection

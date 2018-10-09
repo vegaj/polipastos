@@ -15,3 +15,5 @@
 # Pop configuration
 config/database.yml
 \.idea/
+
+server/debug
