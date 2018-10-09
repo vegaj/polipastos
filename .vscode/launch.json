@@ -4,6 +4,31 @@
     // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
+        {
+            "name": "JWT test package",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceRoot}/server/auth/jwt",
+            "showLog": false,
+            "env": {
+                "migrations_path": "${workspaceRoot}/server/migrations",
+                "database" : "testing"
+            }
+        },
+        {
+            "name": "AUTH test package",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceRoot}/server/auth/",
+            "showLog": false,
+            "env": {
+                "migrations_path": "${workspaceRoot}/server/migrations",
+                "database" : "testing"
+            }
+        },
         {
             "name": "API test package",
             "type": "go",
